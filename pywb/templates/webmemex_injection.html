@@ -1,0 +1,28 @@
+<script>
+    function doOurStuff() {
+
+
+        var allLinks = Array.from(document.getElementsByTagName('a'));
+        allLinks.forEach(linkEl => linkEl.addEventListener('click',
+            function interceptLinkClick(event) {
+                console.log('Intercepted click on '  + linkEl.href);
+                event.preventDefault();
+                window.top.postMessage({url: linkEl.href}, '*');
+            }
+        ));
+        console.log('Hooks set for ' + window.location);
+    }
+
+    runWhenLoaded(doOurStuff);
+
+    function runWhenLoaded(func) {
+        // Run directly or as soon as possible.
+        if (['loaded', 'interactive', 'complete'].indexOf(document.readyState) > -1) {
+            func();
+        }
+        else {
+            // Run as soon as the DOM has loaded.
+            window.addEventListener("load", func);
+        }
+    }
+</script>
