@@ -26,3 +26,23 @@
         }
     }
 </script>
+
+<!-- Thumbnailer -->
+
+<script type="text/javascript" src="http://localhost:8080/static/__pywb/html2canvas.min.js"></script>
+<script>
+window.onload = function () {
+    console.log('top', window.top);
+
+
+    html2canvas(document.body).then(
+        function (canvas) {
+            window.top.postMessage(JSON.stringify({
+                type: 'screenshot',
+                data: canvas.toDataURL()
+            }), '*');
+        }
+    )
+
+}
+</script>
